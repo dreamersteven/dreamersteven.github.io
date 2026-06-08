@@ -16,6 +16,28 @@ function updateProgress() {
 window.addEventListener('scroll', updateProgress, { passive: true });
 
 // ══════════════════════════════════════════════
+// HERO SCROLL SCALE — shrinks hero into a card
+// ══════════════════════════════════════════════
+const heroScale = document.getElementById('hero-scale');
+
+function updateHeroScale() {
+  const heroH = window.innerHeight;
+  // progress 0→1 as user scrolls one full viewport height
+  const p = Math.max(0, Math.min(window.scrollY / heroH, 1));
+
+  const scale  = 1 - p * 0.09;           // shrinks to 91%
+  const radius = p * 24;                  // 0px → 24px border-radius
+  const opacity = 1 - p * 0.55;          // fades out
+
+  heroScale.style.transform    = `scale(${scale})`;
+  heroScale.style.borderRadius = `${radius}px`;
+  heroScale.style.opacity      = opacity;
+}
+
+window.addEventListener('scroll', updateHeroScale, { passive: true });
+updateHeroScale();
+
+// ══════════════════════════════════════════════
 // 2. NAVBAR — scroll state + active section
 // ══════════════════════════════════════════════
 const navbar  = document.getElementById('navbar');
