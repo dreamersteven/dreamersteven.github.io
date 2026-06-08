@@ -1012,18 +1012,18 @@ footer span {
 #cursor-light {
   position: fixed;
   pointer-events: none;
-  width: 560px;
-  height: 560px;
+  width: 520px;
+  height: 520px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(200, 160, 85, 0.055) 0%,
-    rgba(200, 160, 85, 0.02)  40%,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(255, 255, 255, 0.025) 40%,
     transparent 70%
   );
   transform: translate(-50%, -50%);
   z-index: 0;
-  transition: opacity 0.4s var(--ease);
+  transition: opacity 0.3s var(--ease);
 }
 
 /* Card spotlight — inner glow that tracks cursor inside card */

@@ -177,12 +177,11 @@ if (!prefersReduced) {
     ly = e.clientY;
   });
 
-  // Lerp for smooth lag — feels organic, not instant
   function lerp(a, b, t) { return a + (b - a) * t; }
 
   (function animateLight() {
-    cx = lerp(cx, lx, 0.072);
-    cy = lerp(cy, ly, 0.072);
+    cx = lerp(cx, lx, 0.18);
+    cy = lerp(cy, ly, 0.18);
     cursorLight.style.left = cx + 'px';
     cursorLight.style.top  = cy + 'px';
     requestAnimationFrame(animateLight);
