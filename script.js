@@ -24,9 +24,9 @@ mobileNav.querySelectorAll('a').forEach(link => {
 
 // ── Three-track resume switcher ──
 const trackData = {
-  hw: { label: 'Hardware Resume', file: 'resume-hw.pdf' },
-  sw: { label: 'Software Resume', file: 'resume-sw.pdf' },
-  pm: { label: 'Product Resume',  file: 'resume-pm.pdf' },
+  hw: { label: 'Hardware Resume', file: 'Hanlong Liu_resume_2026_hardware.pdf' },
+  sw: { label: 'Software Resume', file: 'Hanlong Liu_resume_2026_software.pdf' },
+  pm: { label: 'Product Resume',  file: 'Hanlong Liu_resume_2026_Product Manager.pdf' },
 };
 
 const resumeBtn   = document.getElementById('resumeBtn');
