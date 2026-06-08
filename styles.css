@@ -989,3 +989,114 @@ footer span {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ============================================================
+   MICRO-INTERACTIONS
+   ============================================================ */
+
+/* Scroll progress bar */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 1.5px;
+  background: var(--gold);
+  transform-origin: left;
+  transform: scaleX(0);
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* Cursor ambient light — global gold glow that follows cursor */
+#cursor-light {
+  position: fixed;
+  pointer-events: none;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(200, 160, 85, 0.055) 0%,
+    rgba(200, 160, 85, 0.02)  40%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  transition: opacity 0.4s var(--ease);
+}
+
+/* Card spotlight — inner glow that tracks cursor inside card */
+.expertise-card,
+.project-card,
+.edu-item,
+.timeline-item {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-spotlight {
+  position: absolute;
+  pointer-events: none;
+  width: 320px;
+  height: 320px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(200, 160, 85, 0.07) 0%,
+    transparent 70%
+  );
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  z-index: 0;
+}
+
+.expertise-card:hover .card-spotlight,
+.project-card:hover .card-spotlight {
+  opacity: 1;
+}
+
+/* Ensure card content sits above spotlight */
+.expertise-card > *:not(.card-spotlight),
+.project-card  > *:not(.card-spotlight) {
+  position: relative;
+  z-index: 1;
+}
+
+/* Magnetic button wrapper */
+.btn-primary,
+.btn-ghost {
+  position: relative;
+}
+
+/* Nav active dot */
+.nav-links a {
+  position: relative;
+}
+
+.nav-links a.active {
+  color: var(--text);
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--gold);
+  border-radius: 1px;
+}
+
+/* Stat count — highlight gold while animating */
+.stat-val.counting {
+  color: var(--gold);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #scroll-progress,
+  #cursor-light,
+  .card-spotlight { display: none; }
+}
