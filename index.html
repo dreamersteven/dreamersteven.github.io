@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hanlong Liu — Engineer & Builder</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <span class="nav-logo">HL</span>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">&#9776;</button>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="#about" onclick="closeMobile()">About</a></li>
+      <li><a href="#skills" onclick="closeMobile()">Skills</a></li>
+      <li><a href="#experience" onclick="closeMobile()">Experience</a></li>
+      <li><a href="#projects" onclick="closeMobile()">Projects</a></li>
+      <li><a href="#education" onclick="closeMobile()">Education</a></li>
+      <li><a href="#contact" onclick="closeMobile()">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <canvas id="waveCanvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">Available for Full-time Roles · 2026</div>
+      <h1 class="hero-name">Hanlong Liu</h1>
+      <p class="hero-title">MS ECE + CS&amp;E @ Georgia Tech&nbsp;&nbsp;|&nbsp;&nbsp;ML Engineer&nbsp;&nbsp;|&nbsp;&nbsp;Signal Processing</p>
+      <p class="hero-sub">
+        Building at the intersection of audio intelligence, LLM systems, and hardware.<br/>
+        Patent-holder · Researcher · Builder.
+      </p>
+      <div class="hero-cta">
+        <a href="mailto:hliu747@gatech.edu" class="btn btn-primary">Get in Touch</a>
+        <a href="https://github.com/dreamersteven" target="_blank" rel="noopener" class="btn btn-outline">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">scroll down ↓</div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a dual-master's student at <strong>Georgia Tech</strong> (ECE + CS&amp;E, GPA 4.0),
+            passionate about signal processing, machine learning, and building real products from scratch.
+          </p>
+          <p>
+            My journey spans from optimizing LLM inference at <strong>ByteDance</strong> to running acoustic
+            experiments in a research lab — and founding <strong>SonicMold</strong>, a 3D-printed custom
+            in-ear monitor startup with filed patents in both the US and China.
+          </p>
+          <p>
+            I love turning complex research into systems that actually ship.
+          </p>
+        </div>
+        <div class="about-stats">
+          <div class="stat-card">
+            <span class="stat-num">4.0</span>
+            <span class="stat-label">GPA @ Georgia Tech</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">2</span>
+            <span class="stat-label">Patents Filed (US + CN)</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">3+</span>
+            <span class="stat-label">Years in ML Research</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-num">∞</span>
+            <span class="stat-label">Cups of Coffee</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3 class="skill-group-title">Languages</h3>
+          <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">C++</span>
+            <span class="tag">C</span>
+            <span class="tag">CUDA</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">SQL</span>
+            <span class="tag">Verilog</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3 class="skill-group-title">ML / AI</h3>
+          <div class="tags">
+            <span class="tag">PyTorch</span>
+            <span class="tag">LLM Inference</span>
+            <span class="tag">RAG</span>
+            <span class="tag">Transformers</span>
+            <span class="tag">TensorRT</span>
+            <span class="tag">scikit-learn</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3 class="skill-group-title">Signal Processing</h3>
+          <div class="tags">
+            <span class="tag">STFT</span>
+            <span class="tag">Filterbank</span>
+            <span class="tag">OLA</span>
+            <span class="tag">Spectral Analysis</span>
+            <span class="tag">Audio DSP</span>
+            <span class="tag">librosa</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3 class="skill-group-title">Tools & Systems</h3>
+          <div class="tags">
+            <span class="tag">Linux</span>
+            <span class="tag">Git</span>
+            <span class="tag">Docker</span>
+            <span class="tag">AWS</span>
+            <span class="tag">MATLAB</span>
+            <span class="tag">Conda</span>
+            <span class="tag">VS Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience" class="section">
+    <div class="container">
+      <h2 class="section-title">Experience</h2>
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div>
+                <h3>ML Inference Engineer Intern</h3>
+                <p class="timeline-org">ByteDance · LLM Infrastructure</p>
+              </div>
+              <span class="timeline-date">2025</span>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Optimized large language model inference pipeline for production-scale deployment.</li>
+              <li>Worked on latency reduction and throughput improvements for LLM serving systems.</li>
+              <li>Collaborated with cross-functional teams on TensorRT and CUDA-level optimizations.</li>
+            </ul>
+            <div class="tags" style="margin-top:12px">
+              <span class="tag tag-sm">LLM Inference</span>
+              <span class="tag tag-sm">CUDA</span>
+              <span class="tag tag-sm">TensorRT</span>
+              <span class="tag tag-sm">Python</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div>
+                <h3>Research Assistant</h3>
+                <p class="timeline-org">UMich Soundability Lab · Prof. Dhruv Jain</p>
+              </div>
+              <span class="timeline-date">2023 – 2024</span>
+            </div>
+            <ul class="timeline-bullets">
+              <li>Developed ML models for sound recognition targeted at Deaf and hard-of-hearing users.</li>
+              <li>Contributed to a medical catheter acoustic sensing sub-project.</li>
+              <li>Implemented signal processing pipelines (STFT, filterbank) for real-time audio classification.</li>
+            </ul>
+            <div class="tags" style="margin-top:12px">
+              <span class="tag tag-sm">Signal Processing</span>
+              <span class="tag tag-sm">PyTorch</span>
+              <span class="tag tag-sm">Audio ML</span>
+              <span class="tag tag-sm">Python</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Projects</h2>
+      <div class="projects-grid">
+
+        <div class="project-card reveal">
+          <div class="project-icon">🎧</div>
+          <div class="project-header">
+            <h3>SonicMold / Sonic Fuse</h3>
+            <span class="project-badge">Startup · Patent</span>
+          </div>
+          <p class="project-desc">
+            Founded a 3D-printed multi-driver custom in-ear monitor (CIEM) startup.
+            Developed a novel acoustic structure with filed patents in both the US and China.
+          </p>
+          <div class="project-meta">
+            <span>📄 US Patent #19/355,355</span>
+            <span>🇨🇳 CN Patent Filed</span>
+          </div>
+          <div class="tags" style="margin-top:12px">
+            <span class="tag tag-sm">3D Printing</span>
+            <span class="tag tag-sm">Acoustics</span>
+            <span class="tag tag-sm">Hardware</span>
+            <span class="tag tag-sm">IP Strategy</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-icon">🔊</div>
+          <div class="project-header">
+            <h3>Sound Recognition for Accessibility</h3>
+            <span class="project-badge">Research</span>
+          </div>
+          <p class="project-desc">
+            Built an ML system that identifies everyday sounds (alarms, doorbells, speech) to assist
+            Deaf and hard-of-hearing individuals, under Prof. Dhruv Jain at UMich Soundability Lab.
+          </p>
+          <div class="tags" style="margin-top:12px">
+            <span class="tag tag-sm">Audio Classification</span>
+            <span class="tag tag-sm">Accessibility</span>
+            <span class="tag tag-sm">PyTorch</span>
+            <span class="tag tag-sm">STFT</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-icon">⚡</div>
+          <div class="project-header">
+            <h3>LLM Inference Optimization</h3>
+            <span class="project-badge">Industry</span>
+          </div>
+          <p class="project-desc">
+            Reduced latency and improved throughput for production LLM serving infrastructure at ByteDance,
+            leveraging custom CUDA kernels and TensorRT graph optimizations.
+          </p>
+          <div class="tags" style="margin-top:12px">
+            <span class="tag tag-sm">CUDA</span>
+            <span class="tag tag-sm">TensorRT</span>
+            <span class="tag tag-sm">Systems</span>
+            <span class="tag tag-sm">C++</span>
+          </div>
+        </div>
+
+        <div class="project-card reveal">
+          <div class="project-icon">🏥</div>
+          <div class="project-header">
+            <h3>Medical Catheter Acoustic Sensing</h3>
+            <span class="project-badge">Research</span>
+          </div>
+          <p class="project-desc">
+            Investigated acoustic sensing techniques applied to medical catheters for non-invasive
+            diagnostics, as part of the Soundability Lab's cross-disciplinary research agenda.
+          </p>
+          <div class="tags" style="margin-top:12px">
+            <span class="tag tag-sm">Medical Devices</span>
+            <span class="tag tag-sm">DSP</span>
+            <span class="tag tag-sm">Signal Analysis</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="section">
+    <div class="container">
+      <h2 class="section-title">Education</h2>
+      <div class="edu-grid">
+
+        <div class="edu-card reveal">
+          <div class="edu-logo">GT</div>
+          <div class="edu-info">
+            <h3>Georgia Institute of Technology</h3>
+            <p class="edu-degree">MS Electrical &amp; Computer Engineering</p>
+            <p class="edu-degree">MS Computer Science &amp; Engineering</p>
+            <div class="edu-meta">
+              <span class="edu-gpa">GPA 4.0 / 4.0</span>
+              <span class="edu-date">Aug 2024 – May 2027</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="edu-card reveal">
+          <div class="edu-logo">UM</div>
+          <div class="edu-info">
+            <h3>University of Michigan, Ann Arbor</h3>
+            <p class="edu-degree">BSE Computer Science &amp; Engineering</p>
+            <p class="edu-degree">BSE Computer Engineering</p>
+            <div class="edu-meta">
+              <span class="edu-gpa">GPA 3.73 / 4.0</span>
+              <span class="edu-date">Sep 2020 – May 2024</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section section-alt">
+    <div class="container contact-container">
+      <h2 class="section-title">Let's Connect</h2>
+      <p class="contact-sub">
+        Open to full-time roles in ML engineering, signal processing, and systems — starting 2026.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:hliu747@gatech.edu" class="contact-link">
+          <span class="contact-icon">✉</span>
+          <span>hliu747@gatech.edu</span>
+        </a>
+        <a href="https://github.com/dreamersteven" target="_blank" rel="noopener" class="contact-link">
+          <span class="contact-icon">⌥</span>
+          <span>github.com/dreamersteven</span>
+        </a>
+        <a href="mailto:dreamingsteven@gmail.com" class="contact-link">
+          <span class="contact-icon">✉</span>
+          <span>dreamingsteven@gmail.com</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 Hanlong Liu · Built with HTML, CSS &amp; Canvas</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
