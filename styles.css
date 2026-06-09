@@ -390,27 +390,33 @@ header {
    Each card's title row (~32px) is visible above the card in front.
    translateY(60px) per step > title height → safe.
    translateX(28px) per step → right-going diagonal. */
+/* Direction: right-to-left fan
+   SM (front) is top-RIGHT, GT (back) is bottom-LEFT
+   100px Y gap ensures each card's title clears the card above */
 .dc-back {
-  transform: skewY(-8deg);
+  /* Georgia Tech — bottom-left, behind everyone */
+  transform: skewY(-8deg) translateX(0px) translateY(200px);
   z-index: 1;
   filter: grayscale(1);
 }
 
 .dc-mid {
-  transform: skewY(-8deg) translateX(28px) translateY(85px);
+  /* ByteDance — middle */
+  transform: skewY(-8deg) translateX(28px) translateY(100px);
   z-index: 2;
-  filter: grayscale(0.65);
+  filter: grayscale(0.6);
 }
 
 .dc-front {
-  transform: skewY(-8deg) translateX(56px) translateY(170px);
+  /* SonicMold — top-right, front and centre */
+  transform: skewY(-8deg) translateX(56px) translateY(0px);
   z-index: 3;
   filter: grayscale(0);
 }
 
-/* ── Hover — lift 16px ── */
+/* ── Hover — lift 16px each ── */
 .dc-back:hover {
-  transform: skewY(-8deg) translateY(-16px);
+  transform: skewY(-8deg) translateX(0px) translateY(184px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -418,7 +424,7 @@ header {
 .dc-back:hover::before { opacity: 0; }
 
 .dc-mid:hover {
-  transform: skewY(-8deg) translateX(28px) translateY(69px);
+  transform: skewY(-8deg) translateX(28px) translateY(84px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -426,7 +432,7 @@ header {
 .dc-mid:hover::before { opacity: 0; }
 
 .dc-front:hover {
-  transform: skewY(-8deg) translateX(56px) translateY(154px);
+  transform: skewY(-8deg) translateX(56px) translateY(-16px);
   border-color: var(--gold-border);
   box-shadow: 0 16px 40px rgba(200,160,85,0.12);
 }
