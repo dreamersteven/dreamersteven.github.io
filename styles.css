@@ -381,6 +381,10 @@ header {
   display: grid;
   grid-template-areas: 'stack';
   place-items: start start;
+  /* Explicit size = full visual footprint of all 3 cards including transforms.
+     GT(X40,Y0) + BD(X20,Y100) + SM(X0,Y200) + card-h(108) + skewY buffer */
+  width: 260px;
+  height: 340px;
 }
 
 .dc-card {
