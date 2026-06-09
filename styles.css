@@ -397,20 +397,20 @@ header {
 }
 
 .dc-mid {
-  transform: skewY(-8deg) translateX(28px) translateY(60px);
+  transform: skewY(-8deg) translateX(28px) translateY(85px);
   z-index: 2;
   filter: grayscale(0.65);
 }
 
 .dc-front {
-  transform: skewY(-8deg) translateX(56px) translateY(120px);
+  transform: skewY(-8deg) translateX(56px) translateY(170px);
   z-index: 3;
   filter: grayscale(0);
 }
 
-/* ── Hover ── */
+/* ── Hover — lift 16px ── */
 .dc-back:hover {
-  transform: skewY(-8deg) translateY(-14px);
+  transform: skewY(-8deg) translateY(-16px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -418,7 +418,7 @@ header {
 .dc-back:hover::before { opacity: 0; }
 
 .dc-mid:hover {
-  transform: skewY(-8deg) translateX(28px) translateY(46px);
+  transform: skewY(-8deg) translateX(28px) translateY(69px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -426,7 +426,7 @@ header {
 .dc-mid:hover::before { opacity: 0; }
 
 .dc-front:hover {
-  transform: skewY(-8deg) translateX(56px) translateY(106px);
+  transform: skewY(-8deg) translateX(56px) translateY(154px);
   border-color: var(--gold-border);
   box-shadow: 0 16px 40px rgba(200,160,85,0.12);
 }
