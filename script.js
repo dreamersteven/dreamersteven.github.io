@@ -272,8 +272,7 @@ if (!prefersReduced && window.innerWidth > 768) {
 }
 
 // ══════════════════════════════════════════════
-// 10. WEBGL SHADER WAVEFORM
-//     Gold plasma lines — 6 lines, dark bg
+// 10. WEBGL SHADER WAVEFORM — gold plasma lines
 // ══════════════════════════════════════════════
 (function () {
   if (prefersReduced) return;
@@ -281,146 +280,143 @@ if (!prefersReduced && window.innerWidth > 768) {
   const canvas = document.getElementById('waveCanvas');
   if (!canvas) return;
 
-  // Try WebGL; fall back silently if unavailable
-  const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+  const gl = canvas.getContext('webgl');
   if (!gl) return;
 
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-  // ── Vertex shader ──
   const vsSource = `
     attribute vec4 aPos;
     void main() { gl_Position = aPos; }
   `;
 
-  // ── Fragment shader — gold lines, transparent background ──
+  // Gold plasma lines on site-matched dark background
+  // #080808 = vec3(0.031, 0.031, 0.031)
+  // gold    = vec3(0.784, 0.627, 0.333)  (#c8a055)
   const fsSource = `
     precision highp float;
     uniform vec2  iResolution;
     uniform float iTime;
 
-    const float SPEED      = 0.15;
-    const float LINE_AMP   = 0.55;
-    const float LINE_FREQ  = 0.20;
-    const float WARP_SPD   = 0.03;
-    const float WARP_FREQ  = 0.50;
-    const float WARP_AMP   = 0.70;
-    const float OFF_FREQ   = 0.50;
-    const float OFF_SPD    = 0.20;
-    const float MIN_SPREAD = 0.60;
-    const float MAX_SPREAD = 1.80;
-    const float MIN_W      = 0.006;
-    const float MAX_W      = 0.09;
-    const float SMOOTH     = 0.015;
-
-    /* Gold: #c8a055 = rgb(200,160,85) */
-    const vec3 GOLD = vec3(0.784, 0.627, 0.333);
+    const float SPEED    = 0.15;
+    const float AMP      = 0.55;
+    const float FREQ     = 0.20;
+    const float WRP_SPD  = 0.03;
+    const float WRP_FREQ = 0.50;
+    const float WRP_AMP  = 0.70;
+    const float OFF_FREQ = 0.50;
+    const float OFF_SPD  = 0.20;
+    const float MIN_SPR  = 0.60;
+    const float MAX_SPR  = 1.80;
+    const float MIN_W    = 0.006;
+    const float MAX_W    = 0.09;
+    const float SM       = 0.015;
+    const vec3  GOLD     = vec3(0.784, 0.627, 0.333);
+    const vec3  BG       = vec3(0.031, 0.031, 0.031);
 
     float rng(float t) {
-      return (cos(t) + cos(t * 1.3 + 1.3) + cos(t * 1.4 + 1.4)) / 3.0;
+      return (cos(t) + cos(t*1.3+1.3) + cos(t*1.4+1.4)) / 3.0;
     }
-
-    float smoothLine(float pos, float hw, float t) {
-      return smoothstep(hw, 0.0, abs(pos - t));
+    float sLine(float p, float hw, float t) {
+      return smoothstep(hw, 0.0, abs(p - t));
     }
-
-    float crispLine(float pos, float hw, float t) {
-      return smoothstep(hw + SMOOTH, hw, abs(pos - t));
+    float cLine(float p, float hw, float t) {
+      return smoothstep(hw + SM, hw, abs(p - t));
     }
-
-    float circle(vec2 center, float r, vec2 uv) {
-      return smoothstep(r + SMOOTH, r, length(uv - center));
+    float dot2(vec2 c, float r, vec2 p) {
+      return smoothstep(r + SM, r, length(p - c));
     }
-
-    float plasmaY(float x, float hFade, float offset) {
-      return rng(x * LINE_FREQ + iTime * SPEED) * hFade * LINE_AMP + offset;
+    float py(float x, float hf, float off) {
+      return rng(x * FREQ + iTime * SPEED) * hf * AMP + off;
     }
 
     void main() {
-      vec2 uv    = gl_FragCoord.xy / iResolution.xy;
-      float sc   = 5.0;
-      vec2 space = (gl_FragCoord.xy - iResolution.xy * 0.5) / iResolution.x * 2.0 * sc;
+      vec2 uv = gl_FragCoord.xy / iResolution.xy;
+      vec2 sp = (gl_FragCoord.xy - iResolution.xy*0.5) / iResolution.x * 10.0;
 
-      float hFade = 1.0 - (cos(uv.x * 6.2832) * 0.5 + 0.5);
-      float vFade = 1.0 - (cos(uv.y * 6.2832) * 0.5 + 0.5);
+      float hf = 1.0 - (cos(uv.x * 6.2832)*0.5 + 0.5);
+      float vf = 1.0 - (cos(uv.y * 6.2832)*0.5 + 0.5);
 
-      /* Space warp */
-      space.y += rng(space.x * WARP_FREQ + iTime * WARP_SPD)       * WARP_AMP * (0.5 + hFade);
-      space.x += rng(space.y * WARP_FREQ + iTime * WARP_SPD + 2.0) * WARP_AMP * hFade;
+      sp.y += rng(sp.x*WRP_FREQ + iTime*WRP_SPD)       * WRP_AMP*(0.5+hf);
+      sp.x += rng(sp.y*WRP_FREQ + iTime*WRP_SPD + 2.0) * WRP_AMP*hf;
 
-      vec4 lines = vec4(0.0);
+      vec3 lines = vec3(0.0);
 
-      /* 6 gold lines */
       for (int l = 0; l < 6; l++) {
-        float fi     = float(l);
-        float offT   = iTime * OFF_SPD;
-        float offPos = fi + space.x * OFF_FREQ;
-        float rand   = rng(offPos + offT) * 0.5 + 0.5;
-        float hw     = mix(MIN_W, MAX_W, rand * hFade) * 0.5;
-        float offset = rng(offPos + offT * (1.0 + fi / 6.0)) * mix(MIN_SPREAD, MAX_SPREAD, hFade);
+        float fi  = float(l);
+        float op  = fi + sp.x*OFF_FREQ;
+        float r   = rng(op + iTime*OFF_SPD)*0.5 + 0.5;
+        float hw  = mix(MIN_W, MAX_W, r*hf)*0.5;
+        float off = rng(op + iTime*OFF_SPD*(1.0+fi/6.0)) * mix(MIN_SPR,MAX_SPR,hf);
 
-        float lineY  = plasmaY(space.x, hFade, offset);
-        float line   = smoothLine(lineY, hw, space.y) * 0.55
-                     + crispLine( lineY, hw * 0.15, space.y);
+        float ly  = py(sp.x, hf, off);
+        float ln  = sLine(ly,hw,sp.y)*0.6 + cLine(ly,hw*0.15,sp.y);
 
-        float cx     = mod(fi + iTime * SPEED, 25.0) - 12.0;
-        float dot    = circle(vec2(cx, plasmaY(cx, hFade, offset)), 0.008, space) * 2.5;
+        float cx  = mod(fi + iTime*SPEED, 20.0) - 10.0;
+        float dk  = dot2(vec2(cx, py(cx,hf,off)), 0.015, sp)*3.0;
 
-        lines += (line + dot) * vec4(GOLD, 1.0) * rand;
+        lines += (ln + dk) * GOLD * r;
       }
 
-      /* Transparent background — site dark color shows through */
-      float alpha = clamp(lines.a * hFade * vFade, 0.0, 1.0);
-      gl_FragColor = vec4(lines.rgb / max(lines.a, 0.001), alpha);
+      vec3 col = BG*vf + lines*hf*vf;
+      gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
     }
   `;
 
-  function compileShader(type, src) {
+  function makeShader(type, src) {
     const s = gl.createShader(type);
     gl.shaderSource(s, src);
     gl.compileShader(s);
-    return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+      console.warn('Shader error:', gl.getShaderInfoLog(s));
+      return null;
+    }
+    return s;
   }
 
+  const vs = makeShader(gl.VERTEX_SHADER,   vsSource);
+  const fs = makeShader(gl.FRAGMENT_SHADER, fsSource);
+  if (!vs || !fs) return;
+
   const prog = gl.createProgram();
-  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER,   vsSource));
-  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fsSource));
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
   gl.linkProgram(prog);
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
 
-  const posBuf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER,
+    new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
 
-  const aPos   = gl.getAttribLocation(prog,  'aPos');
-  const uRes   = gl.getUniformLocation(prog, 'iResolution');
-  const uTime  = gl.getUniformLocation(prog, 'iTime');
+  const aPos = gl.getAttribLocation(prog,  'aPos');
+  const uRes = gl.getUniformLocation(prog, 'iResolution');
+  const uT   = gl.getUniformLocation(prog, 'iTime');
 
+  // Use window dimensions — reliable even for absolute-positioned canvas
   function resize() {
-    canvas.width  = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
     gl.viewport(0, 0, canvas.width, canvas.height);
   }
+  window.addEventListener('resize', resize, { passive: true });
   resize();
-  new ResizeObserver(resize).observe(canvas);
 
   let raf;
   const t0 = performance.now();
 
   function draw() {
-    gl.clearColor(0, 0, 0, 0);
+    const t = (performance.now() - t0) / 1000;
+    gl.clearColor(0.031, 0.031, 0.031, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.useProgram(prog);
-    gl.uniform2f(uRes,  canvas.width, canvas.height);
-    gl.uniform1f(uTime, (performance.now() - t0) / 1000);
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uT, t);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(aPos);
-
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
     raf = requestAnimationFrame(draw);
   }
 
