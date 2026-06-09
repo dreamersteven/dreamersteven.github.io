@@ -327,35 +327,42 @@ header {
 }
 
 /* ════════════════════════════════════════
-   DISPLAY CARDS
+   DISPLAY CARDS  — vertical fan stack
+   Cards spread top→bottom, click to nav
    ════════════════════════════════════════ */
 .dc-stack {
-  display: grid;
-  grid-template-areas: 'stack';
-  place-items: center;
+  position: relative;
+  width: 230px;
+  /* height accounts for 3 cards + vertical spread */
+  height: 300px;
 }
 
+/* Base card — all cards absolutely positioned */
 .dc-card {
-  grid-area: stack;
-  position: relative;
-  width: 260px;
-  height: 130px;
+  position: absolute;
+  left: 0;
+  width: 230px;
+  height: 112px;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: rgba(18, 18, 18, 0.82);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(16, 16, 16, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 14px 16px;
-  transform: skewY(-8deg);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              filter 0.6s ease,
-              border-color 0.3s ease;
-  cursor: default;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
   user-select: none;
   overflow: hidden;
+  /* each card tilts slightly */
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              filter     0.45s ease,
+              border-color 0.25s ease,
+              box-shadow   0.25s ease;
 }
 
 /* Gradient fade on right edge */
@@ -365,51 +372,74 @@ header {
   right: -1px;
   top: -10%;
   height: 120%;
-  width: 90px;
-  background: linear-gradient(to left, var(--bg), transparent);
+  width: 70px;
+  background: linear-gradient(to left, rgba(10,10,10,0.9), transparent);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Overlay for back/mid cards */
-.dc-back::before,
-.dc-mid::before {
+/* Dim overlay for non-top cards */
+.dc-mid::before,
+.dc-bot::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 14px;
-  background: rgba(8, 8, 8, 0.52);
-  transition: opacity 0.55s ease;
+  background: rgba(8, 8, 8, 0.48);
+  transition: opacity 0.4s ease;
   z-index: 2;
   pointer-events: none;
 }
 
-/* Stack positions */
-.dc-back  { filter: grayscale(1); }
-.dc-mid   { transform: skewY(-8deg) translateX(44px) translateY(28px); filter: grayscale(1); }
-.dc-front { transform: skewY(-8deg) translateX(88px) translateY(56px); }
-
-/* Hover states */
-.dc-back:hover  {
-  transform: skewY(-8deg) translateY(-28px);
+/* ── Vertical fan positions ── */
+/* Top card (SonicMold) — rotated slightly left */
+.dc-top {
+  top: 0;
+  transform: skewY(-6deg) translateX(-10px) translateY(0px);
+  z-index: 3;
   filter: grayscale(0);
-  border-color: var(--border-hover);
 }
-.dc-back:hover::before  { opacity: 0; }
 
-.dc-mid:hover   {
-  transform: skewY(-8deg) translateX(44px) translateY(16px);
+/* Middle card (ByteDance) */
+.dc-mid {
+  top: 94px;
+  transform: skewY(-6deg) translateX(4px) translateY(0px);
+  z-index: 2;
+  filter: grayscale(0.5);
+}
+
+/* Bottom card (Georgia Tech) */
+.dc-bot {
+  top: 188px;
+  transform: skewY(-6deg) translateX(18px) translateY(0px);
+  z-index: 1;
+  filter: grayscale(0.8);
+}
+
+/* ── Hover — card lifts and comes to focus ── */
+.dc-top:hover {
+  transform: skewY(-6deg) translateX(-18px) translateY(-8px);
+  border-color: var(--gold-border);
+  box-shadow: 0 16px 40px rgba(200,160,85,0.12);
+}
+
+.dc-mid:hover {
+  transform: skewY(-6deg) translateX(-4px) translateY(-8px);
+  border-color: var(--border-hover);
+  box-shadow: 0 12px 32px rgba(255,255,255,0.05);
   filter: grayscale(0);
-  border-color: var(--border-hover);
 }
-.dc-mid:hover::before   { opacity: 0; }
+.dc-mid:hover::before { opacity: 0; }
 
-.dc-front:hover {
-  transform: skewY(-8deg) translateX(88px) translateY(68px);
+.dc-bot:hover {
+  transform: skewY(-6deg) translateX(10px) translateY(-8px);
   border-color: var(--border-hover);
+  box-shadow: 0 12px 32px rgba(255,255,255,0.05);
+  filter: grayscale(0);
 }
+.dc-bot:hover::before { opacity: 0; }
 
-/* Card content */
+/* ── Card content ── */
 .dc-row {
   display: flex;
   align-items: center;
@@ -425,7 +455,7 @@ header {
   width: 24px;
   height: 24px;
   border-radius: 6px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.07);
   color: var(--text-2);
   flex-shrink: 0;
 }
@@ -435,7 +465,7 @@ header {
 .dc-title {
   font-family: var(--font-head);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text);
   letter-spacing: -0.01em;
 }
@@ -443,7 +473,7 @@ header {
 .dc-title-gold { color: var(--gold); }
 
 .dc-desc {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-2);
   white-space: nowrap;
   position: relative;
