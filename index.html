@@ -103,23 +103,24 @@
         </div>
       </div><!-- /hero-inner -->
 
-      <!-- Display Cards — right side, desktop only, each card is a nav link -->
+      <!-- Display Cards — right side, desktop only
+           DOM order: back→mid→front  (z-index stacks correctly) -->
       <div class="hero-cards">
         <div class="dc-stack">
 
-          <!-- Card 1 · top · SonicMold → #projects -->
-          <a href="#projects" class="dc-card dc-top">
+          <!-- back · Georgia Tech → #education (DOM first = visually behind) -->
+          <a href="#education" class="dc-card dc-back">
             <div class="dc-row">
-              <span class="dc-icon-wrap dc-icon-gold">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
+              <span class="dc-icon-wrap">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
               </span>
-              <p class="dc-title dc-title-gold">SonicMold</p>
+              <p class="dc-title">Georgia Tech</p>
             </div>
-            <p class="dc-desc">3D-Printed CIEM Startup</p>
-            <p class="dc-date">US Patent #19/355,355</p>
+            <p class="dc-desc">MS ECE + CS&amp;E &middot; GPA 4.0</p>
+            <p class="dc-date">Atlanta, GA &middot; 2024–2027</p>
           </a>
 
-          <!-- Card 2 · mid · ByteDance → #experience -->
+          <!-- mid · ByteDance → #experience -->
           <a href="#experience" class="dc-card dc-mid">
             <div class="dc-row">
               <span class="dc-icon-wrap">
@@ -131,16 +132,16 @@
             <p class="dc-date">CUDA &middot; TensorRT &middot; 2025</p>
           </a>
 
-          <!-- Card 3 · bottom · Georgia Tech → #education -->
-          <a href="#education" class="dc-card dc-bot">
+          <!-- front · SonicMold → #projects (DOM last = visually on top) -->
+          <a href="#projects" class="dc-card dc-front">
             <div class="dc-row">
-              <span class="dc-icon-wrap">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              <span class="dc-icon-wrap dc-icon-gold">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>
               </span>
-              <p class="dc-title">Georgia Tech</p>
+              <p class="dc-title dc-title-gold">SonicMold</p>
             </div>
-            <p class="dc-desc">MS ECE + CS&amp;E &middot; GPA 4.0</p>
-            <p class="dc-date">Atlanta, GA &middot; 2024–2027</p>
+            <p class="dc-desc">3D-Printed CIEM Startup</p>
+            <p class="dc-date">US Patent #19/355,355</p>
           </a>
 
         </div>

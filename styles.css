@@ -327,28 +327,27 @@ header {
 }
 
 /* ════════════════════════════════════════
-   DISPLAY CARDS  — vertical fan stack
-   Cards spread top→bottom, click to nav
+   DISPLAY CARDS
+   grid-area:stack — all cards same cell,
+   offset with translateX/Y for diagonal fan.
+   No backdrop-filter (avoids stacking ctx bug).
    ════════════════════════════════════════ */
 .dc-stack {
-  position: relative;
-  width: 230px;
-  /* height accounts for 3 cards + vertical spread */
-  height: 300px;
+  display: grid;
+  grid-template-areas: 'stack';
+  place-items: start start;
 }
 
-/* Base card — all cards absolutely positioned */
 .dc-card {
-  position: absolute;
-  left: 0;
-  width: 230px;
-  height: 112px;
+  grid-area: stack;
+  position: relative;
+  width: 210px;
+  height: 108px;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: rgba(16, 16, 16, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 14px 16px;
+  /* Solid bg — no backdrop-filter to avoid stacking context issues */
+  background: #161616;
+  padding: 13px 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -357,87 +356,80 @@ header {
   cursor: pointer;
   user-select: none;
   overflow: hidden;
-  /* each card tilts slightly */
-  transform-origin: left center;
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-              filter     0.45s ease,
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              filter     0.5s ease,
               border-color 0.25s ease,
               box-shadow   0.25s ease;
 }
 
-/* Gradient fade on right edge */
+/* Right-edge fade */
 .dc-card::after {
   content: '';
   position: absolute;
-  right: -1px;
-  top: -10%;
-  height: 120%;
-  width: 70px;
-  background: linear-gradient(to left, rgba(10,10,10,0.9), transparent);
+  right: -1px; top: -10%;
+  height: 120%; width: 60px;
+  background: linear-gradient(to left, #111, transparent);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Dim overlay for non-top cards */
-.dc-mid::before,
-.dc-bot::before {
+/* Dim overlay on back cards */
+.dc-back::before,
+.dc-mid::before {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 14px;
-  background: rgba(8, 8, 8, 0.48);
+  background: rgba(0,0,0,0.45);
   transition: opacity 0.4s ease;
   z-index: 2;
   pointer-events: none;
 }
 
-/* ── Vertical fan positions ── */
-/* Top card (SonicMold) — rotated slightly left */
-.dc-top {
-  top: 0;
-  transform: skewY(-6deg) translateX(-10px) translateY(0px);
+/* ── Stack positions (diagonal, large Y gap so titles are all readable) ──
+   Each card's title row (~32px) is visible above the card in front.
+   translateY(60px) per step > title height → safe.
+   translateX(28px) per step → right-going diagonal. */
+.dc-back {
+  transform: skewY(-8deg);
+  z-index: 1;
+  filter: grayscale(1);
+}
+
+.dc-mid {
+  transform: skewY(-8deg) translateX(28px) translateY(60px);
+  z-index: 2;
+  filter: grayscale(0.65);
+}
+
+.dc-front {
+  transform: skewY(-8deg) translateX(56px) translateY(120px);
   z-index: 3;
   filter: grayscale(0);
 }
 
-/* Middle card (ByteDance) */
-.dc-mid {
-  top: 94px;
-  transform: skewY(-6deg) translateX(4px) translateY(0px);
-  z-index: 2;
-  filter: grayscale(0.5);
+/* ── Hover ── */
+.dc-back:hover {
+  transform: skewY(-8deg) translateY(-14px);
+  filter: grayscale(0);
+  border-color: var(--border-hover);
+  box-shadow: 0 14px 36px rgba(255,255,255,0.04);
 }
-
-/* Bottom card (Georgia Tech) */
-.dc-bot {
-  top: 188px;
-  transform: skewY(-6deg) translateX(18px) translateY(0px);
-  z-index: 1;
-  filter: grayscale(0.8);
-}
-
-/* ── Hover — card lifts and comes to focus ── */
-.dc-top:hover {
-  transform: skewY(-6deg) translateX(-18px) translateY(-8px);
-  border-color: var(--gold-border);
-  box-shadow: 0 16px 40px rgba(200,160,85,0.12);
-}
+.dc-back:hover::before { opacity: 0; }
 
 .dc-mid:hover {
-  transform: skewY(-6deg) translateX(-4px) translateY(-8px);
-  border-color: var(--border-hover);
-  box-shadow: 0 12px 32px rgba(255,255,255,0.05);
+  transform: skewY(-8deg) translateX(28px) translateY(46px);
   filter: grayscale(0);
+  border-color: var(--border-hover);
+  box-shadow: 0 14px 36px rgba(255,255,255,0.04);
 }
 .dc-mid:hover::before { opacity: 0; }
 
-.dc-bot:hover {
-  transform: skewY(-6deg) translateX(10px) translateY(-8px);
-  border-color: var(--border-hover);
-  box-shadow: 0 12px 32px rgba(255,255,255,0.05);
-  filter: grayscale(0);
+.dc-front:hover {
+  transform: skewY(-8deg) translateX(56px) translateY(106px);
+  border-color: var(--gold-border);
+  box-shadow: 0 16px 40px rgba(200,160,85,0.12);
 }
-.dc-bot:hover::before { opacity: 0; }
 
 /* ── Card content ── */
 .dc-row {
