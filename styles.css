@@ -323,6 +323,7 @@ header {
     align-items: center;
     justify-content: center;
     flex: 1;
+    overflow: hidden; /* clip cards that push past flex boundary */
   }
 }
 
@@ -362,13 +363,13 @@ header {
               box-shadow   0.25s ease;
 }
 
-/* Right-edge fade */
+/* Left-edge fade — depth fades into back cards on the left */
 .dc-card::after {
   content: '';
   position: absolute;
-  right: -1px; top: -10%;
+  left: -1px; top: -10%;
   height: 120%; width: 60px;
-  background: linear-gradient(to left, #111, transparent);
+  background: linear-gradient(to right, #111, transparent);
   pointer-events: none;
   z-index: 1;
 }
@@ -391,32 +392,31 @@ header {
    translateY(60px) per step > title height → safe.
    translateX(28px) per step → right-going diagonal. */
 /* Direction ↙  (top-right → bottom-left)
-   GT top-right (back) → BD middle → SM bottom-left (front)
-   100px Y gap keeps all titles readable */
+   skewY(+8deg): top leans LEFT — matches ↙ cascade, no visual conflict */
 .dc-back {
   /* Georgia Tech — top-right, furthest back */
-  transform: skewY(-8deg) translateX(56px) translateY(0px);
+  transform: skewY(8deg) translateX(40px) translateY(0px);
   z-index: 1;
   filter: grayscale(1);
 }
 
 .dc-mid {
   /* ByteDance — centre */
-  transform: skewY(-8deg) translateX(28px) translateY(100px);
+  transform: skewY(8deg) translateX(20px) translateY(100px);
   z-index: 2;
   filter: grayscale(0.6);
 }
 
 .dc-front {
   /* SonicMold — bottom-left, front and most prominent */
-  transform: skewY(-8deg) translateX(0px) translateY(200px);
+  transform: skewY(8deg) translateX(0px) translateY(200px);
   z-index: 3;
   filter: grayscale(0);
 }
 
 /* ── Hover — lift 16px ── */
 .dc-back:hover {
-  transform: skewY(-8deg) translateX(56px) translateY(-16px);
+  transform: skewY(8deg) translateX(40px) translateY(-16px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -424,7 +424,7 @@ header {
 .dc-back:hover::before { opacity: 0; }
 
 .dc-mid:hover {
-  transform: skewY(-8deg) translateX(28px) translateY(84px);
+  transform: skewY(8deg) translateX(20px) translateY(84px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -432,7 +432,7 @@ header {
 .dc-mid:hover::before { opacity: 0; }
 
 .dc-front:hover {
-  transform: skewY(-8deg) translateX(0px) translateY(184px);
+  transform: skewY(8deg) translateX(0px) translateY(184px);
   border-color: var(--gold-border);
   box-shadow: 0 16px 40px rgba(200,160,85,0.12);
 }
