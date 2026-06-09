@@ -202,8 +202,8 @@ if (!prefersReduced) {
   function lerp(a, b, t) { return a + (b - a) * t; }
 
   (function animateLight() {
-    cx = lerp(cx, lx, 0.18);
-    cy = lerp(cy, ly, 0.18);
+    cx = lerp(cx, lx, 0.08);
+    cy = lerp(cy, ly, 0.08);
     cursorLight.style.left = cx + 'px';
     cursorLight.style.top  = cy + 'px';
     requestAnimationFrame(animateLight);

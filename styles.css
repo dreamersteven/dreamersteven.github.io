@@ -1237,13 +1237,13 @@ footer span {
 #cursor-light {
   position: fixed;
   pointer-events: none;
-  width: 500px;
-  height: 500px;
+  width: 360px;
+  height: 360px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.20) 0%,
-    rgba(255, 255, 255, 0.08) 40%,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
     transparent 70%
   );
   transform: translate(-50%, -50%);
