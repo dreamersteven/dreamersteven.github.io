@@ -1135,10 +1135,17 @@ header {
 .contact-headline {
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: clamp(22px, 3.5vw, 34px);
+  font-size: clamp(28px, 4.5vw, 52px);
   letter-spacing: -0.03em;
-  line-height: 1.2;
+  line-height: 1.1;
   color: var(--text);
+  margin-bottom: var(--sp-3);
+}
+
+.contact-sub {
+  font-size: 14px;
+  color: var(--text-2);
+  letter-spacing: 0.04em;
   margin-bottom: var(--sp-8);
 }
 
