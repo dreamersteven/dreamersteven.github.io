@@ -272,54 +272,155 @@ if (!prefersReduced && window.innerWidth > 768) {
 }
 
 // ══════════════════════════════════════════════
-// 10. SUBTLE WAVEFORM CANVAS
-//     Two slow gold sine waves — whisper only
+// 10. WEBGL SHADER WAVEFORM
+//     Gold plasma lines — 6 lines, dark bg
 // ══════════════════════════════════════════════
 (function () {
   if (prefersReduced) return;
 
   const canvas = document.getElementById('waveCanvas');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d');
 
-  let W, H, raf;
-  let t = 0;
+  // Try WebGL; fall back silently if unavailable
+  const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
+  if (!gl) return;
+
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ── Vertex shader ──
+  const vsSource = `
+    attribute vec4 aPos;
+    void main() { gl_Position = aPos; }
+  `;
+
+  // ── Fragment shader — gold lines, transparent background ──
+  const fsSource = `
+    precision highp float;
+    uniform vec2  iResolution;
+    uniform float iTime;
+
+    const float SPEED      = 0.15;
+    const float LINE_AMP   = 0.55;
+    const float LINE_FREQ  = 0.20;
+    const float WARP_SPD   = 0.03;
+    const float WARP_FREQ  = 0.50;
+    const float WARP_AMP   = 0.70;
+    const float OFF_FREQ   = 0.50;
+    const float OFF_SPD    = 0.20;
+    const float MIN_SPREAD = 0.60;
+    const float MAX_SPREAD = 1.80;
+    const float MIN_W      = 0.006;
+    const float MAX_W      = 0.09;
+    const float SMOOTH     = 0.015;
+
+    /* Gold: #c8a055 = rgb(200,160,85) */
+    const vec3 GOLD = vec3(0.784, 0.627, 0.333);
+
+    float rng(float t) {
+      return (cos(t) + cos(t * 1.3 + 1.3) + cos(t * 1.4 + 1.4)) / 3.0;
+    }
+
+    float smoothLine(float pos, float hw, float t) {
+      return smoothstep(hw, 0.0, abs(pos - t));
+    }
+
+    float crispLine(float pos, float hw, float t) {
+      return smoothstep(hw + SMOOTH, hw, abs(pos - t));
+    }
+
+    float circle(vec2 center, float r, vec2 uv) {
+      return smoothstep(r + SMOOTH, r, length(uv - center));
+    }
+
+    float plasmaY(float x, float hFade, float offset) {
+      return rng(x * LINE_FREQ + iTime * SPEED) * hFade * LINE_AMP + offset;
+    }
+
+    void main() {
+      vec2 uv    = gl_FragCoord.xy / iResolution.xy;
+      float sc   = 5.0;
+      vec2 space = (gl_FragCoord.xy - iResolution.xy * 0.5) / iResolution.x * 2.0 * sc;
+
+      float hFade = 1.0 - (cos(uv.x * 6.2832) * 0.5 + 0.5);
+      float vFade = 1.0 - (cos(uv.y * 6.2832) * 0.5 + 0.5);
+
+      /* Space warp */
+      space.y += rng(space.x * WARP_FREQ + iTime * WARP_SPD)       * WARP_AMP * (0.5 + hFade);
+      space.x += rng(space.y * WARP_FREQ + iTime * WARP_SPD + 2.0) * WARP_AMP * hFade;
+
+      vec4 lines = vec4(0.0);
+
+      /* 6 gold lines */
+      for (int l = 0; l < 6; l++) {
+        float fi     = float(l);
+        float offT   = iTime * OFF_SPD;
+        float offPos = fi + space.x * OFF_FREQ;
+        float rand   = rng(offPos + offT) * 0.5 + 0.5;
+        float hw     = mix(MIN_W, MAX_W, rand * hFade) * 0.5;
+        float offset = rng(offPos + offT * (1.0 + fi / 6.0)) * mix(MIN_SPREAD, MAX_SPREAD, hFade);
+
+        float lineY  = plasmaY(space.x, hFade, offset);
+        float line   = smoothLine(lineY, hw, space.y) * 0.55
+                     + crispLine( lineY, hw * 0.15, space.y);
+
+        float cx     = mod(fi + iTime * SPEED, 25.0) - 12.0;
+        float dot    = circle(vec2(cx, plasmaY(cx, hFade, offset)), 0.008, space) * 2.5;
+
+        lines += (line + dot) * vec4(GOLD, 1.0) * rand;
+      }
+
+      /* Transparent background — site dark color shows through */
+      float alpha = clamp(lines.a * hFade * vFade, 0.0, 1.0);
+      gl_FragColor = vec4(lines.rgb / max(lines.a, 0.001), alpha);
+    }
+  `;
+
+  function compileShader(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+  }
+
+  const prog = gl.createProgram();
+  gl.attachShader(prog, compileShader(gl.VERTEX_SHADER,   vsSource));
+  gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, fsSource));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) return;
+
+  const posBuf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+
+  const aPos   = gl.getAttribLocation(prog,  'aPos');
+  const uRes   = gl.getUniformLocation(prog, 'iResolution');
+  const uTime  = gl.getUniformLocation(prog, 'iTime');
 
   function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
+    canvas.width  = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
   }
   resize();
   new ResizeObserver(resize).observe(canvas);
 
-  const waves = [
-    { freq: 0.006, amp: 0.05,  speed: 0.009,  phase: 0 },
-    { freq: 0.010, amp: 0.032, speed: 0.0145,  phase: 2.6 },
-  ];
-
-  function drawWave(w) {
-    ctx.beginPath();
-    for (let x = 0; x <= W; x += 3) {
-      const y = H * 0.5
-        + Math.sin(x * w.freq + t * w.speed + w.phase) * H * w.amp
-        + Math.sin(x * w.freq * 1.7 + t * w.speed * 0.5 + w.phase) * H * w.amp * 0.28;
-      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    }
-    const g = ctx.createLinearGradient(0, 0, W, 0);
-    g.addColorStop(0,    'rgba(200,160,85,0)');
-    g.addColorStop(0.22, 'rgba(200,160,85,0.22)');
-    g.addColorStop(0.5,  'rgba(200,160,85,0.34)');
-    g.addColorStop(0.78, 'rgba(200,160,85,0.22)');
-    g.addColorStop(1,    'rgba(200,160,85,0)');
-    ctx.strokeStyle = g;
-    ctx.lineWidth   = 1.1;
-    ctx.stroke();
-  }
+  let raf;
+  const t0 = performance.now();
 
   function draw() {
-    ctx.clearRect(0, 0, W, H);
-    waves.forEach(drawWave);
-    t += 0.011;
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    gl.useProgram(prog);
+    gl.uniform2f(uRes,  canvas.width, canvas.height);
+    gl.uniform1f(uTime, (performance.now() - t0) / 1000);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, posBuf);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(aPos);
+
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     raf = requestAnimationFrame(draw);
   }
 
