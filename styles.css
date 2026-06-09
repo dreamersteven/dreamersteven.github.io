@@ -367,7 +367,8 @@ header {
     align-items: center;
     justify-content: center;
     flex: 1;
-    overflow: hidden; /* clip cards that push past flex boundary */
+    /* clip only the right edge — don't cut top/bottom */
+    clip-path: inset(0 0 0 0);
   }
 }
 
@@ -378,18 +379,14 @@ header {
    No backdrop-filter (avoids stacking ctx bug).
    ════════════════════════════════════════ */
 .dc-stack {
-  display: grid;
-  grid-template-areas: 'stack';
-  place-items: start start;
-  /* Explicit size = full visual footprint of all 3 cards including transforms.
-     GT(X40,Y0) + BD(X20,Y100) + SM(X0,Y200) + card-h(108) + skewY buffer */
-  width: 260px;
-  height: 340px;
+  /* position:absolute for each card — reliable sizing, no grid-transform ambiguity */
+  position: relative;
+  width: 252px;   /* max left-offset(40) + card-width(210) + skew-buffer(2) */
+  height: 342px;  /* max top-offset(200) + card-height(108) + skew-buffer(34) */
 }
 
 .dc-card {
-  grid-area: stack;
-  position: relative;
+  position: absolute;
   width: 210px;
   height: 108px;
   border-radius: 14px;
@@ -439,32 +436,32 @@ header {
    Each card's title row (~32px) is visible above the card in front.
    translateY(60px) per step > title height → safe.
    translateX(28px) per step → right-going diagonal. */
-/* Direction ↙  (top-right → bottom-left)
-   skewY(+8deg): top leans LEFT — matches ↙ cascade, no visual conflict */
+/* Direction ↙ — GT top-right, SM bottom-left
+   top/left = layout positions; transform = skew only (no translate) */
 .dc-back {
-  /* Georgia Tech — top-right, furthest back */
-  transform: skewY(8deg) translateX(40px) translateY(0px);
+  top: 0;   left: 40px;
+  transform: skewY(8deg);
   z-index: 1;
   filter: grayscale(1);
 }
 
 .dc-mid {
-  /* ByteDance — centre */
-  transform: skewY(8deg) translateX(20px) translateY(100px);
+  top: 100px; left: 20px;
+  transform: skewY(8deg);
   z-index: 2;
   filter: grayscale(0.6);
 }
 
 .dc-front {
-  /* SonicMold — bottom-left, front and most prominent */
-  transform: skewY(8deg) translateX(0px) translateY(200px);
+  top: 200px; left: 0;
+  transform: skewY(8deg);
   z-index: 3;
   filter: grayscale(0);
 }
 
-/* ── Hover — lift 16px ── */
+/* ── Hover — lift 16px via translateY only ── */
 .dc-back:hover {
-  transform: skewY(8deg) translateX(40px) translateY(-16px);
+  transform: skewY(8deg) translateY(-16px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -472,7 +469,7 @@ header {
 .dc-back:hover::before { opacity: 0; }
 
 .dc-mid:hover {
-  transform: skewY(8deg) translateX(20px) translateY(84px);
+  transform: skewY(8deg) translateY(-16px);
   filter: grayscale(0);
   border-color: var(--border-hover);
   box-shadow: 0 14px 36px rgba(255,255,255,0.04);
@@ -480,7 +477,7 @@ header {
 .dc-mid:hover::before { opacity: 0; }
 
 .dc-front:hover {
-  transform: skewY(8deg) translateX(0px) translateY(184px);
+  transform: skewY(8deg) translateY(-16px);
   border-color: var(--gold-border);
   box-shadow: 0 16px 40px rgba(200,160,85,0.12);
 }
