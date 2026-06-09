@@ -323,8 +323,7 @@ header {
     align-items: center;
     justify-content: center;
     flex: 1;
-    /* clip only the right edge — don't cut top/bottom */
-    clip-path: inset(0 0 0 0);
+    /* #hero-scale already has overflow:hidden — no clip needed here */
   }
 }
 
