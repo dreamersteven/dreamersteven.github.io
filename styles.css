@@ -95,13 +95,22 @@ ul { list-style: none; }
   .container { padding: 0 var(--sp-2); }
 }
 
-/* ── Section ── */
+/* ── Section — subtle frosted glass ──
+   blur(12px) is gentle enough to separate from hero without looking heavy.
+   Semi-transparent bg lets the gold shader lines bleed through slightly. */
 .section {
   padding: var(--section-y) 0;
+  background: rgba(8, 8, 8, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .section-alt {
-  background: var(--bg-alt);
+  background: rgba(12, 12, 12, 0.86);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .section-label {
@@ -1230,18 +1239,19 @@ footer span {
 #cursor-light {
   position: fixed;
   pointer-events: none;
-  width: 520px;
-  height: 520px;
+  width: 700px;
+  height: 700px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.07) 0%,
-    rgba(255, 255, 255, 0.025) 40%,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.05) 40%,
     transparent 70%
   );
   transform: translate(-50%, -50%);
-  z-index: 0;
+  z-index: 3; /* above sections (z:2) so glow shows through glass */
   transition: opacity 0.3s var(--ease);
+  mix-blend-mode: screen; /* blend mode makes glow interact naturally with glass */
 }
 
 /* Card spotlight — inner glow that tracks cursor inside card */
