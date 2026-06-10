@@ -2,14 +2,14 @@
 
 **Live → [dreamersteven.github.io](https://dreamersteven.github.io)**
 
-Dual MS @ Georgia Tech (ECE + CSE, GPA 4.0) · US & China patent holder
+Dual MS @ Georgia Tech (ECE + CSE, GPA 4.0) · US and China patent holder
 Working across **hardware**, **ML systems**, and **product**.
 
 ---
 
 ### Highlights
 
-- **SonicMold** — Founded a 3D-printed custom IEM startup; patents filed in the US & China.
+- **SonicMold** — Founded a 3D-printed custom IEM startup; patents filed in the US and China.
 - **ByteDance** — LLM inference optimization (CUDA, TensorRT).
 - **UMich Soundability Lab** — Sound-recognition ML for accessibility.
 
