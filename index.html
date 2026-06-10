@@ -17,7 +17,53 @@
   <meta name="twitter:description" content="Dual MS at Georgia Tech. ML systems, audio engineering, embedded hardware. US & China patent holder." />
   <meta name="twitter:image" content="https://dreamersteven.github.io/preview.png" />
   <meta name="theme-color" content="#080808" />
+  <meta name="author" content="Hanlong Liu" />
+  <link rel="canonical" href="https://dreamersteven.github.io/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <title>Hanlong Liu — Engineer & Builder</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Hanlong Liu",
+    "url": "https://dreamersteven.github.io/",
+    "email": "mailto:hliu747@gatech.edu",
+    "image": "https://dreamersteven.github.io/preview.png",
+    "jobTitle": "Graduate Researcher & Founder",
+    "alumniOf": [
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "Georgia Institute of Technology",
+        "sameAs": "https://www.gatech.edu/"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "University of Michigan, Ann Arbor",
+        "sameAs": "https://umich.edu/"
+      }
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "SonicMold"
+    },
+    "knowsAbout": [
+      "Machine Learning Systems",
+      "LLM Inference Optimization",
+      "Signal Processing",
+      "Audio Engineering",
+      "Embedded Hardware",
+      "CUDA",
+      "TensorRT",
+      "PyTorch",
+      "3D Printing",
+      "Acoustic Engineering"
+    ],
+    "sameAs": [
+      "https://www.linkedin.com/in/hanlong-liu-02881a268/",
+      "https://github.com/dreamersteven"
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
@@ -69,12 +115,12 @@
         <h1 class="hero-name">Hanlong Liu</h1>
 
         <div class="track-switcher" role="tablist" aria-label="Professional tracks">
-          <button class="track-btn active" role="tab" aria-selected="true"  data-track="hw">Hardware</button>
-          <button class="track-btn"        role="tab" aria-selected="false" data-track="sw">Software</button>
-          <button class="track-btn"        role="tab" aria-selected="false" data-track="pm">Product</button>
+          <button class="track-btn active" role="tab" aria-selected="true"  aria-controls="track-content" data-track="hw">Hardware</button>
+          <button class="track-btn"        role="tab" aria-selected="false" aria-controls="track-content" data-track="sw">Software</button>
+          <button class="track-btn"        role="tab" aria-selected="false" aria-controls="track-content" data-track="pm">Product</button>
         </div>
 
-        <div class="track-content" id="track-content">
+        <div class="track-content" id="track-content" role="tabpanel">
           <p class="track-desc active" data-track="hw">
             Signal processing, acoustic systems, and embedded hardware.<br />
             From DSP pipelines to 3D-printed CIEMs &mdash; with US &amp; China patents filed.
@@ -255,6 +301,28 @@
 
           <article class="timeline-item reveal">
             <div class="timeline-meta">
+              <time class="timeline-date">2024 &ndash; Now</time>
+              <span class="timeline-org">SonicMold</span>
+            </div>
+            <div class="timeline-body">
+              <h3 class="timeline-role">Founder</h3>
+              <p class="timeline-team">SonicMold / Sonic Fuse &middot; Custom In-Ear Monitor Startup</p>
+              <ul class="timeline-bullets">
+                <li>Founded a 3D-printed multi-driver custom IEM venture &mdash; owning everything from acoustic structure design to go-to-market strategy.</li>
+                <li>Invented a novel acoustic architecture; filed patents in both the United States (#19/355,355) and China.</li>
+                <li>Led prototyping with resin 3D printing, driver tuning, and frequency-response measurement workflows.</li>
+              </ul>
+              <div class="tag-row">
+                <span class="tag">Acoustic Design</span>
+                <span class="tag">3D Printing</span>
+                <span class="tag">Patent Strategy</span>
+                <span class="tag">Product</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="timeline-item reveal">
+            <div class="timeline-meta">
               <time class="timeline-date">2025</time>
               <span class="timeline-org">ByteDance</span>
             </div>
@@ -316,7 +384,7 @@
             </div>
             <h3 class="project-title">SonicMold / Sonic Fuse</h3>
             <p class="project-desc">Founded a 3D-printed multi-driver custom in-ear monitor startup. Novel acoustic structure with patents filed in both the United States and China.</p>
-            <p class="project-detail">US #19/355,355 &middot; CN Patent Filed</p>
+            <p class="project-detail">US Utility Patent #19/355,355 (pending) &middot; CN Patent Filed &middot; Sole Inventor</p>
             <div class="tag-row">
               <span class="tag">3D Printing</span>
               <span class="tag">Acoustics</span>

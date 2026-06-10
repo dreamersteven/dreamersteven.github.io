@@ -23,7 +23,7 @@
   --border:      rgba(255, 255, 255, 0.07);
   --border-hover:rgba(255, 255, 255, 0.14);
   --text:        #edecea;        /* warm white — not pure #fff */
-  --text-2:      #7a7977;        /* muted */
+  --text-2:      #8a8985;        /* muted — 5.2:1 on #080808, WCAG AA */
   --text-3:      #484644;        /* very muted */
   --gold:        #c8a055;        /* accent — used sparingly */
   --gold-dim:    rgba(200, 160, 85, 0.1);
@@ -242,6 +242,13 @@ header {
   color: var(--text);
 }
 
+.nav-mobile a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 2px;
+  color: var(--text);
+}
+
 @media (max-width: 720px) {
   .nav-links { display: none; }
   .nav-toggle { display: flex; }
@@ -306,8 +313,8 @@ header {
   flex-shrink: 0;
 }
 
-/* On large screens, left-align text and show cards */
-@media (min-width: 1024px) {
+/* On tablet+ screens, left-align text and show cards */
+@media (min-width: 900px) {
   .hero-inner {
     text-align: left;
     padding: 0;
@@ -324,13 +331,19 @@ header {
   display: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
   .hero-cards {
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 1;
-    padding-left: 120px; /* nudge card stack to the right */
+    padding-left: 40px; /* tablet: modest nudge */
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-cards {
+    padding-left: 120px; /* desktop: nudge card stack further right */
   }
 }
 
@@ -710,7 +723,7 @@ header {
 
 .about-body {
   font-size: 16px;
-  color: rgba(237, 236, 234, 0.72);
+  color: rgba(237, 236, 234, 0.78);
   margin-bottom: var(--sp-3);
   max-width: 560px;
   line-height: 1.8;
