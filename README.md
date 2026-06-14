@@ -15,12 +15,23 @@ Working across **hardware**, **ML systems**, and **product**.
 
 ### Built with
 
-Vanilla **HTML / CSS / JavaScript** — no framework, no build step.
+**React / TypeScript / Vite** with a structured content model for the three resume tracks.
 
 - WebGL fragment-shader background (animated gold plasma lines)
 - iOS-style frosted-glass sections with scroll-driven hero scaling
 - Three-track résumé switcher (Hardware / Software / Product)
 - Fully responsive · WCAG AA · respects `prefers-reduced-motion`
+
+### Development
+
+```bash
+npm install
+npm run dev
+npm run build
+npm run preview
+```
+
+GitHub Pages deployment is handled through the Pages workflow in `.github/workflows/deploy.yml`.
 
 ---
 

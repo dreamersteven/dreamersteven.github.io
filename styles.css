@@ -313,12 +313,24 @@ header {
   flex-shrink: 0;
 }
 
+@media (max-width: 899px) {
+  .hero-layout {
+    padding: 0 var(--sp-2);
+  }
+
+  .hero-inner {
+    width: 100%;
+    max-width: min(530px, calc(100vw - 32px));
+    flex-shrink: 1;
+  }
+}
+
 /* On tablet+ screens, left-align text and show cards */
 @media (min-width: 900px) {
   .hero-inner {
     text-align: left;
     padding: 0;
-    max-width: 480px;
+    max-width: 560px;
   }
 
   .hero-actions  { justify-content: flex-start; }
