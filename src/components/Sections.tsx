@@ -27,8 +27,8 @@ export function About() {
           <div className="about-right">
             <p className="about-body">
               I'm a dual-master's student at <strong>Georgia Tech</strong> pursuing MS ECE and MS CSE simultaneously -
-              maintaining a 4.0 across both programs. Before that, I completed dual bachelor's degrees at the{' '}
-              <strong>University of Michigan</strong>.
+              maintaining a 4.0 across both programs. Before that, I completed a BSE in Computer Science Engineering at the{' '}
+              <strong>University of Michigan</strong>, with a minor in Entrepreneurship through the Ross School of Business.
             </p>
             <p className="about-body">
               My work spans three domains most people treat as separate: hardware (signal processing, acoustics, embedded
@@ -46,8 +46,8 @@ export function About() {
                 <span className="stat-key">Patents Filed</span>
               </div>
               <div className="stat">
-                <span className="stat-val">4</span>
-                <span className="stat-key">Degrees (2 BS + 2 MS)</span>
+                <span className="stat-val">3</span>
+                <span className="stat-key">Degrees (BSE + 2 MS)</span>
               </div>
             </div>
           </div>
@@ -188,7 +188,7 @@ export function Contact() {
           Contact
         </h2>
         <p className="contact-headline">Let's work on something hard.</p>
-        <p className="contact-sub">Dual MS at Georgia Tech · US patent holder · Available now.</p>
+        <p className="contact-sub">Dual MS at Georgia Tech · US patent application + China patent · Available now.</p>
         <div className="contact-row">
           <a href={`mailto:${profile.email}`} className="contact-item">
             <Mail size={15} strokeWidth={1.75} aria-hidden="true" />

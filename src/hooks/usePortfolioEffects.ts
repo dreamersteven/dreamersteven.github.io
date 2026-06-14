@@ -53,7 +53,7 @@ export function usePortfolioEffects() {
     const statTargets: Record<string, { value: number; decimals: number }> = {
       '4.0': { value: 4.0, decimals: 1 },
       '2': { value: 2, decimals: 0 },
-      '4': { value: 4, decimals: 0 },
+      '3': { value: 3, decimals: 0 },
     };
 
     const animateStat = (element: HTMLElement) => {
